@@ -37,7 +37,7 @@ This documentation is immature and work in progress!
 
 == Dapla Project (Statistics Norway Data Platform)
 
-image::doc/img/dapla-white.png[Dalpa,256]
+image::doc/img/dapla-logo-long.svg[Dalpa,256]
 
 This project aggregates dapla sources into a common development context.
 
