@@ -77,6 +77,8 @@ services:
     environment:
       CONCEPT_dash_LDS_HOST: http://concept-lds
       CONCEPT_dash_LDS_PORT: 9090
+      EXPLORATION_dash_LDS_HOST: http://exploration-lds
+      EXPLORATION_dash_LDS_PORT: 9091
 
 volumes:
   concept-neo4jdata:
