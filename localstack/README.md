@@ -6,22 +6,15 @@ to form a complete working example sandbox.
 
 ## Getting started
 
-Maven needs a profile with credentials for logging onto the SSB nexus, to retrieve dependencies. Get the `settings.xml` containing the credentials from the Dapla team. Add it to your `~/.m2` directory.
+Look bellow in the **Additional Config** section and make sure you have completed the **Maven config** and **Secrets** steps
 
-It might be necessary to run these Google Cloud SDK terminal commands before continuing:
-```
-gcloud config set project prod-bip
-gcloud container clusters get-credentials prod-bip-app --zone europe-north1-a
-gcloud components install docker-credential-gcr
-gcloud auth configure-docker
-```
+### Data
+
+In your terminal, navigate to the `localstack` folder.
 
 If it is not already present, create an empty directory called `data` in the localstack directory.
 
-Get the file `gcs_sa_test.json` from the Dapla team
-Add it to `.../dapla-project/dapla-spark-plugin/secret/gcs_sa_test.json`
-
-In your terminal, navigate to the `localstack` folder.
+### Make
 
 Make sure you have pulled down all related dapla repositories from github:
 
@@ -62,7 +55,7 @@ make spark-plugin-redploy
 ```
 You can further customize this with the `skipPseudo=true` and/or `skipPlugin=true` params.
 
-#### JupyterLab
+### JupyterLab
 
 To use JupyterLab, you will need credentials in the local keycloak system. The credentials are stored in the file `keycloak_ssb_realm.json`. This command will open your local keycloak dashboard in your browser:
 ```
@@ -98,8 +91,7 @@ The same thing can be done for "concept" schemas if you swap `exploration` with 
 
 ### Maven config
 
-Some of the artifacts that this stack relies on are only available on SSBs internal nexus. Make sure
-your `settings.xml` is configured properly (see the SSB developer guide).
+Some of the artifacts that this stack relies on are only available on SSBs internal nexus. Make sure your `settings.xml` is configured properly with a profile and credentials. You can get the apropriate settings file from the Dapla team. It can be placed at `~/.m2/settings.xml`.
 
 ### Secrets
 
@@ -108,6 +100,14 @@ Ask a friend to get hold of this.
 
 - The project _dapla-spark-plugin_ needs a service account key file placed under`/secret/gcs_sa_test.json`.
 This is needed to build the docker image and to run integration tests against a GCS bucket.
+
+It might be necessary to run these Google Cloud SDK terminal commands:
+```
+gcloud config set project prod-bip
+gcloud container clusters get-credentials prod-bip-app --zone europe-north1-a
+gcloud components install docker-credential-gcr
+gcloud auth configure-docker
+```
 
 ### Intellij
 
