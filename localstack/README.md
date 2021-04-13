@@ -6,7 +6,24 @@ to form a complete working example sandbox.
 
 ## Getting started
 
-Before continuing, make sure you have pulled down all related dapla repositories from github:
+Maven needs a profile with credentials for logging onto the SSB nexus, to retrieve dependencies. Get the `settings.xml` containing the credentials from the Dapla team. Add it to your `~/.m2` directory.
+
+It might be necessary to run these Google Cloud SDK terminal commands before continuing:
+```
+gcloud config set project prod-bip
+gcloud container clusters get-credentials prod-bip-app --zone europe-north1-a
+gcloud components install docker-credential-gcr
+gcloud auth configure-docker
+```
+
+If it is not already present, create an empty directory called `data` in the localstack directory.
+
+Get the file `gcs_sa_test.json` from the Dapla team
+Add it to `.../dapla-project/dapla-spark-plugin/secret/gcs_sa_test.json`
+
+In your terminal, navigate to the `localstack` folder.
+
+Make sure you have pulled down all related dapla repositories from github:
 
 ```sh
 make update-all
@@ -44,6 +61,24 @@ to your running environment without having to rebuild everything:
 make spark-plugin-redploy
 ```
 You can further customize this with the `skipPseudo=true` and/or `skipPlugin=true` params.
+
+#### JupyterLab
+
+To use JupyterLab, you will need credentials in the local keycloak system. The credentials are stored in the file `keycloak_ssb_realm.json`. This command will open your local keycloak dashboard in your browser:
+```
+make open-keycloak
+```
+The username and password are ´admin´.
+You might have a user to your name from before (check `keycloak_ssb_realm.json`), in that case you might still need to create a password. If not, create a new user and a password. 
+
+To use JupyterLab there needs to be an empty directory `.../dapla-gcp-project/localstack/notebook-user-dir`
+
+At this point you can run
+```
+make start-jupyter-exploration-with-console
+make open-jupyter
+```
+and log on to jupyter using the username and password you created with keycloak.
 
 ### Setup Linked Data Store
 All GSIM schemas for the service can be generated with:
