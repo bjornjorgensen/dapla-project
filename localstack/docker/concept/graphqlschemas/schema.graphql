@@ -275,6 +275,17 @@ type MultilingualText {
   languageText: String!
 }
 
+#Assign multilingual text to the name and description of an object and its properties.
+type ObjectTranslate @domain {
+  #Translations for the description of the object.
+  description: [MultilingualText!]
+  #Unique identifier of the information object these translations are assigned to.
+  id: String!
+  #Translations for the name of the object.
+  name: [MultilingualText!]!
+  propertyTranslate: [PropertyTranslate!]
+}
+
 #The total membership of a defined class of people, objects or events.
 type Population implements Concept & IdentifiableArtefact @domain {
   #Administrative details (e.g. default language, documentation, localID, ...).
@@ -322,6 +333,16 @@ type Population implements Concept & IdentifiableArtefact @domain {
   versionValidFrom: DateTime!
 }
 
+#Assign multilingual text to the properties of an object.
+type PropertyTranslate {
+  #Translations for the description of the property.
+  description: [MultilingualText!]
+  #Translations for the name of the property.
+  name: [MultilingualText!]!
+  #Name of the property.
+  propertyName: String!
+}
+
 type Query {
   AboutById: [About]
   AdministrativeDetailsById: [AdministrativeDetails]
@@ -331,6 +352,7 @@ type Query {
   MeasurementTypeById: [MeasurementType]
   MeasurementUnitById: [MeasurementUnit]
   MultilingualTextById: [MultilingualText]
+  ObjectTranslateById: [ObjectTranslate]
   PopulationById: [Population]
   RankedUrnDetailsById: [RankedUrnDetails]
   RepresentedVariableById: [RepresentedVariable]

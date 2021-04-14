@@ -1250,6 +1250,17 @@ type MultilingualText {
   languageText: String!
 }
 
+#Assign multilingual text to the name and description of an object and its properties.
+type ObjectTranslate @domain {
+  #Translations for the description of the object.
+  description: [MultilingualText!]
+  #Unique identifier of the information object these translations are assigned to.
+  id: String!
+  #Translations for the name of the object.
+  name: [MultilingualText!]!
+  propertyTranslate: [PropertyTranslate!]
+}
+
 #Defines how Information Sets consumed by a Product are presented to Information Consumers.
 type OutputSpecification implements IdentifiableArtefact @domain {
   #Administrative details (e.g. default language, documentation, localID, ...).
@@ -1963,6 +1974,16 @@ type Product implements ExchangeChannel & IdentifiableArtefact @domain {
   versionValidFrom: DateTime!
 }
 
+#Assign multilingual text to the properties of an object.
+type PropertyTranslate {
+  #Translations for the description of the property.
+  description: [MultilingualText!]
+  #Translations for the name of the property.
+  name: [MultilingualText!]!
+  #Name of the property.
+  propertyName: String!
+}
+
 #The mechanism for exchanging information through an Exchange Channel.
 type Protocol implements IdentifiableArtefact @domain {
   #Administrative details (e.g. default language, documentation, localID, ...).
@@ -2080,6 +2101,7 @@ type Query {
   MeasurementTypeById: [MeasurementType]
   MeasurementUnitById: [MeasurementUnit]
   MultilingualTextById: [MultilingualText]
+  ObjectTranslateById: [ObjectTranslate]
   OutputSpecificationById: [OutputSpecification]
   ParameterInputById: [ParameterInput]
   PopulationById: [Population]
@@ -3029,7 +3051,9 @@ enum StatisticalSupportProgramStatusType {
 }
 
 enum TemporalityType {
+  ACCUMULATED
   EVENT
+  FIXED
   STATUS
 }
 
