@@ -6,17 +6,12 @@ to form a complete working example sandbox.
 
 ## Getting started
 
-Look bellow in the **Additional Config** section and make sure you have completed the **Maven config** and **Secrets** steps
-
-### Data
-
-In your terminal, navigate to the `localstack` folder.
-
-If it is not already present, create an empty directory called `data` in the localstack directory.
+Look bellow in the **Additional Config** section, and make sure you have completed the **Maven config** and **Secrets** steps to avoid errors completing the **Make** steps.
 
 ### Make
 
-Make sure you have pulled down all related dapla repositories from github:
+In your terminal, navigate to the `localstack` folder.
+Make sure you have pulled down all related Dapla repositories from GitHub:
 
 ```sh
 make update-all
@@ -48,32 +43,31 @@ If you simply want to start a subset of containers, you can specify them explici
 docker-compose up dapla-auth-dataset-service postgres db-admin
 ```
 
-If you're working with the dapla-spark-plugin and want to see your latest changes applied
+If you're working with the `dapla-spark-plugin` and want to see your latest changes applied
 to your running environment without having to rebuild everything:
 ```sh
 make spark-plugin-redploy
 ```
 You can further customize this with the `skipPseudo=true` and/or `skipPlugin=true` params.
 
-### JupyterLab
+### JupyterLab and Keycloak credentials
 
-To use JupyterLab, you will need credentials in the local keycloak system. The credentials are stored in the file `keycloak_ssb_realm.json`. This command will open your local keycloak dashboard in your browser:
+To use JupyterLab, you will need credentials in the local Keycloak system. The credentials are stored in the file `keycloak_ssb_realm.json`. This command will open your local Keycloak dashboard in your browser:
 ```
 make open-keycloak
 ```
 The username and password are ´admin´.
-You might have a user to your name from before (check `keycloak_ssb_realm.json`), in that case you might still need to create a password. If not, create a new user and a password. 
-
-To use JupyterLab there needs to be an empty directory `.../dapla-gcp-project/localstack/notebook-user-dir`
+You might have a user to your name from before (check `keycloak_ssb_realm.json`), in that case you might still need to create a password. If not, create a new user and a password.
 
 At this point you can run
 ```
 make start-jupyter-exploration-with-console
 make open-jupyter
 ```
-and log on to jupyter using the username and password you created with keycloak.
+...and log on to jupyter using the personal username and password you created with Keycloak.
 
 ### Setup Linked Data Store
+
 All GSIM schemas for the service can be generated with:
 ```
 make generate-exploration-schemas
@@ -91,7 +85,7 @@ The same thing can be done for "concept" schemas if you swap `exploration` with 
 
 ### Maven config
 
-Some of the artifacts that this stack relies on are only available on SSBs internal nexus. Make sure your `settings.xml` is configured properly with a profile and credentials. You can get the apropriate settings file from the Dapla team. It can be placed at `~/.m2/settings.xml`.
+Some artifacts that this stack relies on are only available from SSBs internal Nexus (Nexus is a Package Index server software). Make sure your Maven `settings.xml` contains an appropriate profile with credentials for Nexus. You can get a settings file from the Dapla team. It can be placed at `~/.m2/settings.xml`.
 
 ### Secrets
 
@@ -99,12 +93,10 @@ In order to run the tests for the full stack you will need to have a service acc
 Ask a friend to get hold of this.
 
 - The project _dapla-spark-plugin_ needs a service account key file placed under`/secret/gcs_sa_test.json`.
-This is needed to build the docker image and to run integration tests against a GCS bucket.
+This is needed to build the docker image and to run integration tests against a GCS bucket. Ask a Dapla member to get a copy of this file.
 
 It might be necessary to run these Google Cloud SDK terminal commands:
 ```
-gcloud config set project prod-bip
-gcloud container clusters get-credentials prod-bip-app --zone europe-north1-a
 gcloud components install docker-credential-gcr
 gcloud auth configure-docker
 ```
