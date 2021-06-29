@@ -1,10 +1,10 @@
 # Python dependency management for JupyterLab projects
 
-It is now possible to use different packages and different versions of packages for different JupyterLab projects. This is achieved by creating a virtual environment for your project, and creating a new Jupyter kernel that utilizes the virtual environment. 
+It is possible to use different Python packages and different versions of packages for different JupyterLab projects. This is achieved by creating a Python virtual environment for each project, and creating a new Jupyter kernel that utilizes the virtual environment. 
 
 **TL;DR:** 
-- Use the virtual environment tool `pipenv` for installing Python packages for each project. In addition to automatically creating an environment per project, `pipenv` has the benefit of automatic and explicit tracking of installed packages (+dependencies) in text files that can be version controlled using GIT.
-- The command line tool `pipenv-kernel` can be used to generate a Jupyter kernel based on a project's virtual environment, that can be used for the project's notebook(s).
+- Use the Python virtual environment tool `pipenv` when installing Python packages in your project folder. In addition to automatically creating a new environment per project, `pipenv` has the benefit of automatic and explicit tracking of installed packages (+dependencies) in text files that can be version controlled using GIT.
+- Use the command line tool `pipenv-kernel` to bake the project's virtual environment into a "kernel", which you then select for running the project's notebook(s).
 
 ## pipenv
 
@@ -24,7 +24,7 @@ If a Python package you need, or a specific version you need, is not available u
 
 ## pipenv-kernel
 
-In order to run a notebook using the pipenv virtual environment, we need to create and use a new Jupyter kernel that utilizes the virtual environment. `pipenv-kernel` is a command line tool that makes it easy to create, activate and delete virtual environments and kernels that utilize them.
+In order to run a notebook using the pipenv virtual environment, we need to create and select a new Jupyter kernel that utilizes the virtual environment's Python executable and libraries. `pipenv-kernel` is a command line tool that makes it easy to create, activate and delete virtual environments and kernels that utilize a `pipenv` virtual environment.
 
 ### Create
 
