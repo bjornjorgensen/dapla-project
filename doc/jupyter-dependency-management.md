@@ -2,11 +2,15 @@
 
 It is possible to use different Python packages and different versions of packages for different JupyterLab projects. This is achieved by creating a Python virtual environment for each project, and creating a new Jupyter kernel that utilizes the virtual environment. 
 
+("project" should be taken to mean a folder that is probably version controlled as a single GIT repository, or "repo" for short, and that contains one or more Jupyter notebooks with Python code)
+
 **TL;DR:** 
 - Use the Python virtual environment tool `pipenv` when installing Python packages in your project folder. In addition to automatically creating a new environment per project, `pipenv` has the benefit of automatic and explicit tracking of installed packages (+dependencies) in text files that can be version controlled using GIT.
 - Use the command line tool `pipenv-kernel` to bake the project's virtual environment into a "kernel", which you then select for running the project's notebook(s).
 
 ## pipenv
+
+To install `pipenv` into JupyterLab, open a terminal window and type `pip install pipenv`.
 
 To install a package using pipenv (and automatically initialize the virtual environment for this folder if it does not exist), simply open a terminal window, navigate to your project folder (`cd <project-folder`) and execute the command
 
