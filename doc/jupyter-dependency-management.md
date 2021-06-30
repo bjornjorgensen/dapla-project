@@ -1,6 +1,6 @@
 # Python dependency management for JupyterLab projects
 
-It is possible to use different Python packages and different versions of packages for different JupyterLab projects. This is achieved by creating a Python virtual environment for each project, and creating a new Jupyter kernel that utilizes the virtual environment. 
+It is possible to use different Python packages and different versions of packages for different JupyterLab projects, and automatically keep track of which versions of which packages were used in the project at any given time. This is achieved by creating a Python virtual environment for each project, and creating a new Jupyter kernel that utilizes the virtual environment. 
 
 ("project" should be taken to mean a folder that is probably version controlled as a single GIT repository, or "repo" for short, and that contains one or more Jupyter notebooks with Python code)
 
