@@ -128,7 +128,7 @@ When loading an already downloaded/installed package from one of your registered
 
 As explained, using the `renv::snapshot()` function will generate a `renv.lock` file which will describe your project's dependencies. In order to restore the virtual environment from a `renv.lock` file you need to use the function `renv::restore()`.
 
-If you have an accurate `renv.lock` file from which you can `renv::restore()`, you do not need to run `source(here::here('dependencies.R'))` at the beginning of your notebook. In other words, you can replace
+If you have an accurate `renv.lock` file from which you can `renv::restore()`, you do not need to run `source(here::here('dependencies.R'))` at the beginning of your notebook. In other words, if you used a `dependencies.R` file to load packages initially, you can now replace
 
 `source(here::here('dependencies.R'))`
 
