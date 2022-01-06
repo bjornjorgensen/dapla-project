@@ -97,6 +97,7 @@ An example `dependencies.R`
 
 ```
 # Initialize the virtual environment
+library(renv)
 renv::init()
 
 # Packages go here
@@ -112,13 +113,13 @@ renv::snapshot()
 
 ## Installing and loading packages, as usual
 
-To list your R libraries (folders containing installed packages)
+To list all installed packages from all libraries, use
 
-`.libPaths()`
+`installed.packages()`
 
-To install a new package into one of your libraries, use
+When installing a new package from CRAN that is not present, use
 
-`packages.install("package", lib="/path/to/lib")` where the "lib" argument is optional and used to select a non-default library path. The default library path will be the first one, which in case you use `renv` should be your project local library.
+`install.packages("packagename")`
 
 When loading an already downloaded/installed package from one of your registered R libraries (folders on your machine already containing downloaded packages) into a notebook, all you need to do is
 
