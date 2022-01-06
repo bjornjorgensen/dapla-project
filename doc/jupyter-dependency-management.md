@@ -89,7 +89,7 @@ A folder called "renv" containing your virtual environment with its own library 
 ---
 **NOTE!**
 
-`renv::snapshot()` does not currently manage to extract dependencies from `.ipynb` files (only `.R` and `.Rmd`). The lockfile produced by `renv::snapshot()` will therefore not be sufficient to reproduce your virtual environment in itself. One way to solve this is to create a `dependencies.R` file (or perhaps one for each notebook) where you install and load all the packages needed in your project notebook(s), and then at the beginning of your notebook load and resolve packages using this line at the beginning of your notebook
+`renv::snapshot()` does not currently manage to extract dependencies from `.ipynb` files (only `.R` and `.Rmd`). The lockfile produced by `renv::snapshot()` will therefore not be sufficient to reproduce your virtual environment in itself. One way to solve this is to create a `dependencies.R` file (or perhaps one for each notebook) where you install and load all the packages needed in your project notebook(s), and then at the beginning of your notebook load and resolve packages using this line:
 
 `source(here::here('dependencies.R'))`
 
@@ -97,8 +97,6 @@ An example `dependencies.R`
 
 ```
 # Initialize the virtual environment
-install.packages("renv")
-library(renv)
 renv::init()
 
 # Packages go here
@@ -126,3 +124,16 @@ When loading an already downloaded/installed package from one of your registered
 
 `library(package)`
 
+## Restoring a renv virtual environment from a lockfile
+
+As explained, using the `renv::snapshot()` function will generate a `renv.lock` file which will describe your project's dependencies. In order to restore the virtual environment from a `renv.lock` file you need to use the function `renv::restore()`.
+
+If you have an accurate `renv.lock` file from which you can `renv::restore()`, you do not need to run `source(here::here('dependencies.R'))` at the beginning of your notebook. In other words, you can replace
+
+`source(here::here('dependencies.R'))`
+
+with
+
+`renv::restore()`
+
+when your dependencies have been locked.
