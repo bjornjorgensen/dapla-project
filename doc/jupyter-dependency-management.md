@@ -84,7 +84,33 @@ To create a virtual environment for your project, run these from an R session/no
 
 `renv::init()`
 
-A folder called "renv" containing your virtual environment with its own library should now have been created next to the notebook from which you ran the `renv::init()` command. You can now install, uninstall and load packages as usual. To save a list of your dependencies into a lockfile, use `renv::snapshot()`, and to restore the environment from this lockfile, use `renv::restore()`. Read the complete [renv documentation here](https://rstudio.github.io/renv/articles/renv.html). NB!: `renv::snapshot()` does not currently support `.ipynb` files (only `.R` and `Rmd`). The lockfile produced by `renv::snapshot()` will therefore not be sufficient to reproduce your virtual environment in itself. One way to solve this is to create a `dependencies.R` file where you install and load all the packages needed in your notebook, and then at the beginning of your notebook call `source("dependencies.R")`
+A folder called "renv" containing your virtual environment with its own library should now have been created next to the notebook from which you ran the `renv::init()` command. You can now install, uninstall and load packages as usual. To save a list of your dependencies into a lockfile, use `renv::snapshot()`, and to restore the environment from this lockfile, use `renv::restore()`. Read the complete [renv documentation here](https://rstudio.github.io/renv/articles/renv.html). 
+
+---
+**NOTE!**
+
+`renv::snapshot()` does not currently manage to extract dependencies from `.ipynb` files (only `.R` and `.Rmd`). The lockfile produced by `renv::snapshot()` will therefore not be sufficient to reproduce your virtual environment in itself. One way to solve this is to create a `dependencies.R` file (or perhaps one for each notebook) where you install and load all the packages needed in your project notebook(s), and then at the beginning of your notebook load and resolve packages using this line at the beginning of your notebook
+
+`source(here::here('dependencies.R'))`
+
+An example `dependencies.R`
+
+```
+# Initialize the virtual environment
+install.packages("renv")
+library(renv)
+renv::init()
+
+# Packages go here
+install.packages("lattice")
+library(lattice)
+
+# Save the dependencies to renv.lock
+renv::snapshot()
+
+```
+
+---
 
 ## Installing and loading packages, as usual
 
