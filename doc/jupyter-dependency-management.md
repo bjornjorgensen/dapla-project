@@ -1,4 +1,7 @@
-# Python dependency management for JupyterLab projects
+# Dependency management for JupyterLab projects
+When using JupyterLab, we sometimes need to install and use different/specific packages on a per-project basis. We need to do this both for Python and for R projects.
+
+# Python dependency management
 
 It is possible to use different Python packages and different versions of packages for different JupyterLab projects, and automatically keep track of which versions of which packages were used in the project at any given time. This is achieved by creating a Python virtual environment for each project, and creating a new Jupyter kernel that utilizes the virtual environment. 
 
@@ -67,8 +70,33 @@ Delete the named kernel only, not the pipenv or pipfiles.
 Delete pipenv files associated to current project (`pipenv --venv` to display path) from the user home folder. This part can easily be re-generated from the `Pipfile` and `Pipfile.lock` located in the project folder, which are not deleted by default.
 The `--hard` option deletes `Pipfile` and `Pipfile.lock` from project folder too, so that all dependency tracking is lost.
 
-## Enabling Spark in a custom kernel
+### Enabling Spark in a custom kernel
 
 If you want to be able to run Spark code using a pipenv-kernel setup, you must use one of the Spark kernels as your template kernel, AND you must run `pipenv install ssb-ipython-kernels` in your project folder. As of 20/04/2021 you might have to `pipenv install jwt` too, but this should not be necessary in the future.
 
+# R dependency management
+
+## Virtual environments
+
+To create a virtual environment for your project, run these from an R session/notebook inside the project folder:
+
+`library(renv)`
+
+`renv::init()`
+
+A folder called "renv" containing your virtual environment with its own library should now have been created next to the notebook from which you ran the `renv::init()` command. You can now install, uninstall and load packages as usual. To save a list of your dependencies into a lockfile, use `renv::snapshot()`, and to restore the environment from this lockfile, use `renv::restore()`. Read the complete [renv documentation here](https://rstudio.github.io/renv/articles/renv.html). NB!: `renv::snapshot()` does not currently support `.ipynb` files (only `.R` and `Rmd`). The lockfile produced by `renv::snapshot()` will therefore not be sufficient to reproduce your virtual environment in itself. One way to solve this is to create a `dependencies.R` file where you install and load all the packages needed in your notebook, and then at the beginning of your notebook call `source("dependencies.R")`
+
+## Installing and loading packages, as usual
+
+To list your R libraries (folders containing installed packages)
+
+`.libPaths()`
+
+To install a new package into one of your libraries, use
+
+`packages.install("package", lib="/path/to/lib")` where the "lib" argument is optional and used to select a non-default library path. The default library path will be the first one, which in case you use `renv` should be your project local library.
+
+When loading an already downloaded/installed package from one of your registered R libraries (folders on your machine already containing downloaded packages) into a notebook, all you need to do is
+
+`library(package)`
 
