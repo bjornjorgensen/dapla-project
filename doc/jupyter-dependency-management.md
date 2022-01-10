@@ -1,4 +1,7 @@
-# Python dependency management for JupyterLab projects
+# Dependency management for JupyterLab projects
+When using JupyterLab, we sometimes need to install and use different/specific packages on a per-project basis. We need to do this both for Python and for R projects.
+
+# Python dependency management
 
 It is possible to use different Python packages and different versions of packages for different JupyterLab projects, and automatically keep track of which versions of which packages were used in the project at any given time. This is achieved by creating a Python virtual environment for each project, and creating a new Jupyter kernel that utilizes the virtual environment. 
 
@@ -67,8 +70,71 @@ Delete the named kernel only, not the pipenv or pipfiles.
 Delete pipenv files associated to current project (`pipenv --venv` to display path) from the user home folder. This part can easily be re-generated from the `Pipfile` and `Pipfile.lock` located in the project folder, which are not deleted by default.
 The `--hard` option deletes `Pipfile` and `Pipfile.lock` from project folder too, so that all dependency tracking is lost.
 
-## Enabling Spark in a custom kernel
+### Enabling Spark in a custom kernel
 
 If you want to be able to run Spark code using a pipenv-kernel setup, you must use one of the Spark kernels as your template kernel, AND you must run `pipenv install ssb-ipython-kernels` in your project folder. As of 20/04/2021 you might have to `pipenv install jwt` too, but this should not be necessary in the future.
 
+# R dependency management
 
+## Virtual environments
+
+To create a virtual environment for your project, run these from an R session/notebook inside the project folder:
+
+`library(renv)`
+
+`renv::init()`
+
+A folder called "renv" containing your virtual environment with its own library should now have been created next to the notebook from which you ran the `renv::init()` command. You can now install, uninstall and load packages as usual. To save a list of your dependencies into a lockfile, use `renv::snapshot()`, and to restore the environment from this lockfile, use `renv::restore()`. Read the complete [renv documentation here](https://rstudio.github.io/renv/articles/renv.html). 
+
+---
+**NOTE!**
+
+`renv::snapshot()` does not currently manage to extract dependencies from `.ipynb` files (only `.R` and `.Rmd`). The lockfile produced by `renv::snapshot()` will therefore not be sufficient to reproduce your virtual environment in itself. One way to solve this is to create a `dependencies.R` file (or perhaps one for each notebook) where you install and load all the packages needed in your project notebook(s), and then at the beginning of your notebook load and resolve packages using this line:
+
+`source(here::here('dependencies.R'))`
+
+An example `dependencies.R`
+
+```
+# Initialize the virtual environment
+library(renv)
+renv::init()
+
+# Packages go here
+install.packages("lattice")
+library(lattice)
+
+# Save the dependencies to renv.lock
+renv::snapshot()
+
+```
+
+---
+
+## Installing and loading packages, as usual
+
+To list all installed packages from all libraries, use
+
+`installed.packages()`
+
+When installing a new package from CRAN that is not present, use
+
+`install.packages("packagename")`
+
+When loading an already downloaded/installed package from one of your registered R libraries (folders on your machine already containing downloaded packages) into a notebook, all you need to do is
+
+`library(package)`
+
+## Restoring a renv virtual environment from a lockfile
+
+As explained, using the `renv::snapshot()` function will generate a `renv.lock` file which will describe your project's dependencies. In order to restore the virtual environment from a `renv.lock` file you need to use the function `renv::restore()`.
+
+If you have an accurate `renv.lock` file from which you can `renv::restore()`, you do not need to run `source(here::here('dependencies.R'))` at the beginning of your notebook. In other words, if you used a `dependencies.R` file to load packages initially, you can now replace
+
+`source(here::here('dependencies.R'))`
+
+with
+
+`renv::restore()`
+
+when your dependencies have been locked.
