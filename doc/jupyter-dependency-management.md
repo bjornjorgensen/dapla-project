@@ -84,12 +84,12 @@ To create a virtual environment for your project, run these from an R session/no
 
 `renv::init()`
 
-A folder called "renv" containing your virtual environment with its own library should now have been created next to the notebook from which you ran the `renv::init()` command. You can now install, uninstall and load packages as usual. To save a list of your dependencies into a lockfile, use `renv::snapshot()`, and to restore the environment from this lockfile, use `renv::restore()`. Read the complete [renv documentation here](https://rstudio.github.io/renv/articles/renv.html). 
+A folder called `renv` containing your virtual environment with its own library should now have been created next to the notebook from which you ran the `renv::init()` command. You can now install, uninstall and load packages as usual. The function used to save a list of your dependencies into a lockfile is `renv::snapshot()`*, and to restore the environment from this lockfile, use `renv::restore()`. Read the complete [renv documentation here](https://rstudio.github.io/renv/articles/renv.html). 
 
 ---
-**NOTE!**
+***NOTE!**
 
-`renv::snapshot()` does not currently manage to extract dependencies from `.ipynb` files (only `.R` and `.Rmd`). The lockfile produced by `renv::snapshot()` will therefore not be sufficient to reproduce your virtual environment in itself. One way to solve this is to create a `dependencies.R` file (or perhaps one for each notebook) where you install and load all the packages needed in your project notebook(s), and then at the beginning of your notebook load and resolve packages using this line:
+`renv::snapshot()` does not currently manage to extract dependencies from `.ipynb` files (only `.R` and `.Rmd`). The lockfile produced by `renv::snapshot()` will therefore not be sufficient to reproduce your virtual environment in itself if you only load the packages into your notebook directly. One way to solve this is to create a `dependencies.R` file for your project (or perhaps one for each notebook) where you install and load all the packages needed in your project notebook(s), and then at the beginning of your notebook load and resolve packages using this line:
 
 `source(here::here('dependencies.R'))`
 
@@ -100,30 +100,18 @@ An example `dependencies.R`
 library(renv)
 renv::init()
 
-# Packages go here
+# All package installation and loading goes here
 install.packages("lattice")
 library(lattice)
 
-# Save the dependencies to renv.lock
+# Save the dependencies above into renv.lock
 renv::snapshot()
 
 ```
 
+With this setup, you do not need to load or initialize `renv` in your notebook directly: The `source` function call is the only thing you need in your notebook related to package management. 
+
 ---
-
-## Installing and loading packages, as usual
-
-To list all installed packages from all libraries, use
-
-`installed.packages()`
-
-When installing a new package from CRAN that is not present, use
-
-`install.packages("packagename")`
-
-When loading an already downloaded/installed package from one of your registered R libraries (folders on your machine already containing downloaded packages) into a notebook, all you need to do is
-
-`library(package)`
 
 ## Restoring a renv virtual environment from a lockfile
 
@@ -138,3 +126,21 @@ with
 `renv::restore()`
 
 when your dependencies have been locked.
+
+## Installing and loading packages, as usual
+
+Package management inside a `renv` environment works as usual, except for the fact that `snapshot` does not capture usage in notebooks.
+
+To list all locally installed packages in all available libraries, use
+
+`installed.packages()`
+
+When installing a new package from CRAN (the R package index on the internet) that is not present in any of your local libraries, use
+
+`install.packages("packagename")`
+
+Running this function on an already installed package will not do anything.
+
+When loading an already downloaded/installed package from one of your registered R libraries (folders on your machine already containing downloaded packages) into an R session, use this function:
+
+`library(package)`
