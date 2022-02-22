@@ -101,7 +101,7 @@ library(renv)
 renv::init()
 
 # All package installation and loading goes here
-install.packages("lattice")
+install.packages("lattice", repos='https://cran.uib.no')  # we specify the uib mirror of cran, which has been whitelisted for egress
 library(lattice)
 
 # Save the dependencies above into renv.lock
@@ -137,7 +137,9 @@ To list all locally installed packages in all available libraries, use
 
 When installing a new package from CRAN (the R package index on the internet) that is not present in any of your local libraries, use
 
-`install.packages("packagename")`
+`install.packages("packagename", repos='https://cran.uib.no')`
+
+In the "repos" parameter we specify to use a particular mirror of CRAN that has been whitelisted for egress.
 
 Running this function on an already installed package will not do anything.
 
