@@ -78,13 +78,15 @@ If you want to be able to run Spark code using a pipenv-kernel setup, you must u
 
 ## Virtual environments
 
-To create a virtual environment for your project, run these from an R session/notebook inside the project folder:
+To create a virtual environment for your project, run these from an R session/notebook *located **inside** the project directory* (The "project directory" is a new directory/folder you create inside the home directory `/home/jovyan`):
 
 `library(renv)`
 
 `renv::init()`
 
-A folder called `renv` containing your virtual environment with its own library should now have been created next to the notebook from which you ran the `renv::init()` command. You can now install, uninstall and load packages as usual. The function used to save a list of your dependencies into a lockfile is `renv::snapshot()`*, and to restore the environment from this lockfile, use `renv::restore()`. Read the complete [renv documentation here](https://rstudio.github.io/renv/articles/renv.html). 
+A folder called `renv` containing your virtual environment with its own library should now have been created next to the notebook from which you ran the `renv::init()` command, which should be inside your project directory. You can now install, uninstall and load packages (into your project renv) as usual. The function used to save a list of your dependencies into a lockfile is `renv::snapshot()`. To restore the environment specified in the lockfile, use `renv::restore()`. 
+
+Read the complete [renv documentation here](https://rstudio.github.io/renv/articles/renv.html). Please refer to the renv docs and google when you meet problems and errors while using renv, before asking #hjelp_dapla. 
 
 ---
 ***NOTE!**
@@ -126,6 +128,12 @@ with
 `renv::restore()`
 
 when your dependencies have been locked.
+
+### Caveats to renv::restore()
+
+**Problem:** When running `renv::restore()`, renv will try to install all the missing dependencies to your main R library folder. The main R library folder has to be the renv library folder for your project, in order for `renv::restore()` to work as intended. This might not always be the case, for example if you have restarted your jupyter instance or worked on another project. 
+
+**Solution:** To ensure the project's renv library directory is set as R's main library directory, run `renv::init()` inside the relevant project directory before running `renv::restore()`.
 
 ## Installing and loading packages, as usual
 
