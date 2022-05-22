@@ -61,4 +61,4 @@ Your repo is now ready for use.
 1. Change to repo directory, or Clone `git@github.com` repos
 1. Type your passphrase
 
-You will not be promoted for passphrase over again.
+You will not be prompted for passphrase over again.
